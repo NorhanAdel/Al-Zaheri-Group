@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+ 
+:root {
+  --font-cairo: "Cairo", sans-serif;
+}
+
+body {
+  font-family: var(--font-cairo);
+}
+span{
+  font-family: var(--font-cairo);
+}
+ h1{
+    font-family: var(--font-cairo);
+ }
+ .branch-gallery .swiper-button-next,
+.branch-gallery .swiper-button-prev {
+  background: white;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.branch-gallery .swiper-button-next::after,
+.branch-gallery .swiper-button-prev::after {
+  font-size: 16px;
+  color: #000;
+}
+
+.branch-gallery .swiper-pagination-bullet {
+  background: #d1d5db;
+  opacity: 1;
+}
+
+.branch-gallery .swiper-pagination-bullet-active {
+  background: #000;
+}
+
+ 

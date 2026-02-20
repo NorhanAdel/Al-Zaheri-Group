@@ -41,10 +41,9 @@ const data = [
 /* ===== Counter Component ===== */
 interface CounterProps {
   end: number;
-  icon: (props: React.SVGProps<SVGSVGElement>) => React.ReactElement;
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
   title: string;
 }
-
 function Counter({ end, icon: Icon, title }: CounterProps) {
   const [count, setCount] = useState(0);
 
@@ -275,3 +274,4 @@ function About() {
 }
 
 export default About;
+

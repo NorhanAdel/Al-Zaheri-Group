@@ -1,4 +1,19 @@
-export function BranchSelector({ branches, onSelect, activeId }) {
+type Branch = {
+  id: number;
+  name: string;
+};
+
+type BranchSelectorProps = {
+  branches: Branch[];
+  onSelect: (branch: Branch) => void;
+  activeId: number;
+};
+
+export function BranchSelector({
+  branches,
+  onSelect,
+  activeId,
+}: BranchSelectorProps) {
   return (
     <div className="bg-gray-50 rounded-2xl p-6 space-y-4">
       <h3 className="text-xl font-bold mb-6 text-right">فروعنا</h3>
@@ -15,12 +30,10 @@ export function BranchSelector({ branches, onSelect, activeId }) {
                 : "bg-white hover:bg-gray-100"
             }`}
         >
-          {/* العنوان */}
           <span className="font-medium text-right">
             {branch.name}
           </span>
 
-          {/* السهم */}
           <span
             className={`text-xl transition
               ${

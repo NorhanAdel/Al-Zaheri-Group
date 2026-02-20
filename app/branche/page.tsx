@@ -1,9 +1,7 @@
- 
 "use client";
 
 import { useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
- 
 
 import { motion } from "framer-motion";
 import Hero from "../_components/Hero";
@@ -13,24 +11,24 @@ import { branches } from "../constants/branches";
 import BranchIdentitySection from "../_components/BranchIdentitySection";
 import BranchSideCard from "../_components/BranchSideCard";
 import BranchGallerySlider from "../_components/BranchGallerySlider";
-import BranchFeaturesSection from '../_components/BranchFeaturesSection'
-import StepsSection from "../_components/StepsSection"
+import BranchFeaturesSection from '../_components/BranchFeaturesSection';
+import StepsSection from "../_components/StepsSection";
+
 export default function BranchesPage() {
   const searchParams = useSearchParams();
-const branchParam = searchParams.get("branch");
+  const branchParam = searchParams.get("branch");
 
   const [activeBranch, setActiveBranch] = useState(branches[0]);
-  const detailsRef = useRef(null);
-useEffect(() => {
-  if (branchParam) {
-    const foundBranch = branches.find(
-      (b) => b.slug === branchParam
-    );
-    if (foundBranch) {
-      setActiveBranch(foundBranch);
+  const detailsRef = useRef<HTMLElement>(null); // ✅ نوع الـ ref مضبوط
+
+  useEffect(() => {
+    if (branchParam) {
+      const foundBranch = branches.find((b) => b.slug === branchParam);
+      if (foundBranch) {
+        setActiveBranch(foundBranch);
+      }
     }
-  }
-}, [branchParam]);
+  }, [branchParam]);
 
   return (
     <>
@@ -46,7 +44,7 @@ useEffect(() => {
           <div className="lg:col-span-2">
             <BranchDetails
               branch={activeBranch}
-              sectionRef={detailsRef}
+              sectionRef={detailsRef} // ✅ تمرير الـ ref بشكل صحيح
             />
           </div>
 
@@ -59,44 +57,48 @@ useEffect(() => {
           </div>
         </div>
 
-       
-     <div className="bg-gray-50 rounded-3xl p-12">
-  <div className="grid grid-cols-1 lg:grid-cols-5 gap-16 items-start">
+        {/* ===== قسم الهوية ===== */}
+        <div className="bg-gray-50 rounded-3xl p-12">
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-16 items-start">
 
-    {/* المحتوى */}
-    <div className="lg:col-span-3 space-y-20">
-      <BranchIdentitySection title="رؤيتنا" items={activeBranch.vision} />
-      <BranchIdentitySection title="رسالتنا" items={activeBranch.mission} />
-      <BranchIdentitySection title="أهدافنا" items={activeBranch.goals} />
-      <BranchIdentitySection title="قيمنا" items={activeBranch.values} />
-    </div>
+            {/* المحتوى */}
+            <div className="lg:col-span-3 space-y-20">
+              <BranchIdentitySection title="رؤيتنا" items={activeBranch.vision} />
+              <BranchIdentitySection title="رسالتنا" items={activeBranch.mission} />
+              <BranchIdentitySection title="أهدافنا" items={activeBranch.goals} />
+              <BranchIdentitySection title="قيمنا" items={activeBranch.values} />
+            </div>
 
-    {/* الكارد */}
-    <div className="lg:col-span-2">
-      <BranchSideCard />
-    </div>
+            {/* الكارد الجانبي */}
+            <div className="lg:col-span-2">
+              <BranchSideCard />
+            </div>
 
-  </div>
-</div>
-        <BranchGallerySlider images={activeBranch.gallery} />
-        
-   {activeBranch.videos?.length > 0 && (
-          <div className="grid md:grid-cols-2 gap-8 max-w-4xl my-20">
-             
-          {activeBranch.videos.map((vid, i) => (
-            <motion.video
-              key={i}
-              src={vid}
-              controls
-              whileHover={{ scale: 1.02 }}
-              className="rounded-xl w-full h-[250]"
-            />
-          ))}
+          </div>
         </div>
-      )}
+
+        {/* ===== معرض الصور ===== */}
+        <BranchGallerySlider images={activeBranch.gallery} />
+
+        {/* ===== الفيديوهات ===== */}
+        {activeBranch.videos?.length > 0 && (
+          <div className="grid md:grid-cols-2 gap-8 max-w-4xl my-20">
+            {activeBranch.videos.map((vid, i) => (
+              <motion.video
+                key={i}
+                src={vid}
+                controls
+                whileHover={{ scale: 1.02 }}
+                className="rounded-xl w-full h-[250px]"
+              />
+            ))}
+          </div>
+        )}
+
+        {/* ===== المميزات والخطوات ===== */}
         <BranchFeaturesSection />
         <StepsSection />
-        
+
       </div>
     </>
   );

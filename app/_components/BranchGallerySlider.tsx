@@ -8,12 +8,19 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
-export default function BranchGallerySlider({ images }) {
+type BranchGallerySliderProps = {
+  images: string[];
+};
+
+export default function BranchGallerySlider({
+  images,
+}: BranchGallerySliderProps) {
   return (
-      <div className="relative mb-10 w-[70%]">
-           <h3 className="text-4xl font-bold  inline-block pb-2 mb-10">
-     صور
+    <div className="relative mb-10 w-[70%]">
+      <h3 className="text-4xl font-bold inline-block pb-2 mb-10">
+        صور
       </h3>
+
       <Swiper
         modules={[Navigation, Pagination]}
         spaceBetween={30}
@@ -35,7 +42,7 @@ export default function BranchGallerySlider({ images }) {
             <div className="relative h-[320px] rounded-3xl overflow-hidden shadow-lg">
               <Image
                 src={img}
-                alt=""
+                alt={`gallery-${i}`}
                 fill
                 className="object-cover"
               />

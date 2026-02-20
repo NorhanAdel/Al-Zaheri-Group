@@ -3,8 +3,22 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import BranchGallerySlider from "./BranchGallerySlider";
+import { RefObject } from "react";
 
-export function BranchDetails({ branch, sectionRef }) {
+type Branch = {
+  name: string;
+  description: string;
+  mainImage: string;
+  audio?: string;
+  images?: string[];
+};
+
+type BranchDetailsProps = {
+  branch: Branch;
+  sectionRef: RefObject<HTMLElement>;
+};
+
+export function BranchDetails({ branch, sectionRef }: BranchDetailsProps) {
   return (
     <section ref={sectionRef} className="space-y-24">
 
@@ -39,8 +53,8 @@ export function BranchDetails({ branch, sectionRef }) {
         </p>
       </div>
 
-      {/* ===== الصور (Slider زي الصورة بالظبط) ===== */}
-     
+      {/* ===== الصور (Slider) ===== */}
+      {branch.images && <BranchGallerySlider images={branch.images} />}
 
     </section>
   );

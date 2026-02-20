@@ -1,9 +1,14 @@
 "use client";
+
 import { motion } from "framer-motion";
 import Image from "next/image";
 
-export default function Hero({ title, currentPage }) {
-  
+type HeroProps = {
+  title: string;
+  currentPage: string;
+};
+
+export default function Hero({ title, currentPage }: HeroProps) {
   return (
     <section className="relative w-full h-[70vh] overflow-hidden">
       <Image
@@ -31,7 +36,6 @@ export default function Hero({ title, currentPage }) {
             <span>{currentPage}</span>
           </div>
 
-       
           <h1 className="text-4xl md:text-5xl font-extrabold">{title}</h1>
 
           <motion.div

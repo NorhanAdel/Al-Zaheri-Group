@@ -1,6 +1,14 @@
 import { motion } from "framer-motion";
 
-export default function BranchIdentitySection({ title, items }) {
+type BranchIdentitySectionProps = {
+  title: string;
+  items: string[];
+};
+
+export default function BranchIdentitySection({
+  title,
+  items,
+}: BranchIdentitySectionProps) {
   return (
     <div className="space-y-6">
       <h3 className="text-2xl font-bold border-b-2 border-blue-600 inline-block pb-2">

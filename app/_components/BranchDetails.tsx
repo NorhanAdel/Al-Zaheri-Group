@@ -15,7 +15,7 @@ type Branch = {
 
 type BranchDetailsProps = {
   branch: Branch;
-  sectionRef: RefObject<HTMLElement>;
+  sectionRef: RefObject<HTMLElement | null>;  
 };
 
 export function BranchDetails({ branch, sectionRef }: BranchDetailsProps) {

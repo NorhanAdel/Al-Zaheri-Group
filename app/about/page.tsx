@@ -41,7 +41,7 @@ const data = [
 /* ===== Counter Component ===== */
 interface CounterProps {
   end: number;
-  icon: (props: React.SVGProps<SVGSVGElement>) => JSX.Element;
+  icon: (props: React.SVGProps<SVGSVGElement>) => React.ReactElement;
   title: string;
 }
 

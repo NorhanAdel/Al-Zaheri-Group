@@ -19,10 +19,11 @@ export default function AboutUsSection() {
   const fixedText = `احصل على الاستشارات لتحقيق نمو أفضل للأعمال.
 مجموعة شركات الظاهرى هى احدى الشركات الرائدة فى المملكة العربية السعودية ومنطقة الخليج تأسست فى عام 1983 كفرع للمقاولات فى البداية، وطورت الشركة نشاطها إلى مجموعة متكامله من عشرة فروع متنوعة الأنشطة في مختلف المجالات حتى الان.`;
 
- 
-  const imageSrc = "/s2.jpg";  
+  const imageSrc = "/s2.jpg";
 
-  const [activeTab, setActiveTab] = useState("overview");
+  const [activeTab, setActiveTab] = useState<keyof typeof content>("overview");
+
+  const currentTab = tabs.find((t) => t.id === activeTab);
 
   return (
     <section className="py-20 px-6 max-w-7xl mx-auto">
@@ -40,7 +41,7 @@ export default function AboutUsSection() {
         {tabs.map((tab) => (
           <button
             key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
+            onClick={() => setActiveTab(tab.id as keyof typeof content)}
             className={`px-6 py-2 rounded-full font-semibold transition
               ${
                 activeTab === tab.id
@@ -66,14 +67,14 @@ export default function AboutUsSection() {
               transition={{ duration: 0.6 }}
             >
               <h3 className="text-2xl md:text-3xl font-bold mb-4">
-                {tabs.find((t) => t.id === activeTab).label}
+                {currentTab?.label}
               </h3>
               <p>{content[activeTab]}</p>
             </motion.div>
           </AnimatePresence>
         </div>
 
-    
+        {/* الصورة */}
         <div className="md:w-1/2 relative h-64 md:h-80 rounded-xl overflow-hidden shadow-md">
           <Image
             src={imageSrc}

@@ -4,18 +4,12 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import BranchGallerySlider from "./BranchGallerySlider";
 import { RefObject } from "react";
+import { Branch } from "../types/branch";
 
-type Branch = {
-  name: string;
-  description: string;
-  mainImage: string;
-  audio?: string;
-  images?: string[];
-};
-
-type BranchDetailsProps = {
-  branch: Branch;
-  sectionRef: RefObject<HTMLElement | null>;  
+type BranchSelectorProps = {
+  branches: Branch[];
+  onSelect: (branch: Branch) => void;
+  activeId: string;
 };
 
 export function BranchDetails({ branch, sectionRef }: BranchDetailsProps) {
@@ -59,3 +53,4 @@ export function BranchDetails({ branch, sectionRef }: BranchDetailsProps) {
     </section>
   );
 }
+

@@ -45,7 +45,7 @@ export default function BranchesPage() {
       <Hero title={activeBranch.name} currentPage={activeBranch.name} />
 
       <div className="max-w-7xl mx-auto px-6 mt-20 space-y-28">
-        {/* ===== الجزء العلوي ===== */}
+        {/* الجزء العلوي */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-14 items-start">
           <div className="lg:col-span-2">
             <BranchDetails branch={activeBranch} sectionRef={detailsRef} />
@@ -60,7 +60,7 @@ export default function BranchesPage() {
           </div>
         </div>
 
-        {/* ===== قسم الهوية ===== */}
+        {/* قسم الهوية */}
         <div className="bg-gray-50 rounded-3xl p-12">
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-16 items-start">
             <div className="lg:col-span-3 space-y-20">
@@ -76,10 +76,10 @@ export default function BranchesPage() {
           </div>
         </div>
 
-        {/* ===== معرض الصور ===== */}
+        {/* معرض الصور */}
         {gallery.length > 0 && <BranchGallerySlider images={gallery} />}
 
-        {/* ===== الفيديوهات ===== */}
+        {/* الفيديوهات */}
         {videos.length > 0 && (
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl my-20">
             {videos.map((vid, i) => (
@@ -94,7 +94,7 @@ export default function BranchesPage() {
           </div>
         )}
 
-        {/* ===== المميزات والخطوات ===== */}
+        {/* المميزات والخطوات */}
         <BranchFeaturesSection />
         <StepsSection />
       </div>

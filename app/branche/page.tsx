@@ -1,7 +1,5 @@
-// /app/branche/page.tsx
-"use client";
-
-import { useSearchParams } from "next/navigation";
+// /pages/branche.tsx
+import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 
@@ -18,14 +16,14 @@ import StepsSection from "../_components/StepsSection";
 import { Branch } from "../types/branch";
 
 export default function BranchesPage() {
-  const searchParams = useSearchParams();
-  const branchParam = searchParams.get("branch");
+  const router = useRouter();
+  const { branch: branchParam } = router.query;
 
   const [activeBranch, setActiveBranch] = useState<Branch>(branchesData[0] as Branch);
   const detailsRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    if (branchParam) {
+    if (branchParam && typeof branchParam === "string") {
       const foundBranch = branchesData.find((b) => b.slug === branchParam);
       if (foundBranch) {
         setActiveBranch(foundBranch as Branch);

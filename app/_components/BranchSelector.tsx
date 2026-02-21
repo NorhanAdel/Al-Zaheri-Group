@@ -1,12 +1,18 @@
 type Branch = {
-  id: string;   // ✅ بدل number
+  id: string;
+  slug: string;
   name: string;
+  description: string;
+  mainImage: string;
+  audio: string;
+  vision: string[];
+  mission: string[];
 };
 
 type BranchSelectorProps = {
   branches: Branch[];
   onSelect: (branch: Branch) => void;
-  activeId: string;   // ✅ بدل number
+  activeId: string;
 };
 
 export function BranchSelector({
@@ -49,4 +55,3 @@ export function BranchSelector({
     </div>
   );
 }
-

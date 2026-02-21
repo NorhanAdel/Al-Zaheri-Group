@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useState, ChangeEvent, FormEvent } from "react";
 import {
   Phone,
   Mail,
@@ -22,26 +22,34 @@ const fadeUp = {
 };
 
 export default function Careers() {
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<{
+    name: string;
+    phone: string;
+    job: string;
+    cv: File | null;
+  }>({
     name: "",
     phone: "",
     job: "",
     cv: null,
   });
 
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [success, setSuccess] = useState(false);
 
-  const handleChange = (e) => {
+  // ===== Handle input change =====
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleFile = (e) => {
-    setForm({ ...form, cv: e.target.files[0] });
+  const handleFile = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setForm({ ...form, cv: e.target.files[0] });
+    }
   };
 
   const validate = () => {
-    const newErrors = {};
+    const newErrors: Record<string, string> = {};
     if (!form.name) newErrors.name = "الاسم مطلوب";
     if (!form.phone) newErrors.phone = "رقم الجوال مطلوب";
     if (!form.job) newErrors.job = "اختر الوظيفة";
@@ -49,7 +57,7 @@ export default function Careers() {
     return newErrors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
@@ -63,7 +71,8 @@ export default function Careers() {
   return (
     <>
       {/* ===== Hero ===== */}
-    <Hero title= "انضم إلى فريق العمل" currentPage= "انضم إلى فريق العمل" />
+      <Hero title="انضم إلى فريق العمل" currentPage="انضم إلى فريق العمل" />
+
       {/* ===== Contact Cards ===== */}
       <section className="bg-gray-50 py-24">
         <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-10">
@@ -129,7 +138,9 @@ export default function Careers() {
                   className="w-full pr-12 py-4 rounded-xl border focus:ring-2 focus:ring-blue-500"
                 />
               </div>
-              {errors.name && <p className="text-red-500 mt-2">{errors.name}</p>}
+              {errors.name && (
+                <p className="text-red-500 mt-2">{errors.name}</p>
+              )}
             </div>
 
             {/* Phone */}
@@ -169,9 +180,7 @@ export default function Careers() {
 
             {/* Upload CV */}
             <div>
-              <label className="block mb-3 font-semibold">
-                السيرة الذاتية
-              </label>
+              <label className="block mb-3 font-semibold">السيرة الذاتية</label>
               <label className="flex items-center justify-center gap-3 cursor-pointer border-2 border-dashed rounded-xl py-10 hover:border-blue-500 transition">
                 <Upload className="text-blue-600" />
                 <span>
@@ -184,6 +193,7 @@ export default function Careers() {
 
             {/* Submit */}
             <motion.button
+              type="submit"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="w-full bg-blue-600 text-white py-5 rounded-xl font-bold text-lg shadow-lg"
@@ -202,9 +212,7 @@ export default function Careers() {
                 className="mt-10 flex items-center gap-3 bg-green-100 text-green-700 p-6 rounded-xl justify-center"
               >
                 <CheckCircle />
-                <span className="font-bold">
-                  تم إرسال طلبك بنجاح ✔
-                </span>
+                <span className="font-bold">تم إرسال طلبك بنجاح ✔</span>
               </motion.div>
             )}
           </AnimatePresence>

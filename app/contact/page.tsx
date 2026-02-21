@@ -1,8 +1,7 @@
- "use client";
+"use client";
 
-import Image from "next/image";
+import { useState, ChangeEvent, FormEvent } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
 import {
   Phone,
   Mail,
@@ -20,11 +19,6 @@ const fadeUp = {
   visible: { opacity: 1, y: 0 },
 };
 
-const fadeRight = {
-  hidden: { opacity: 0, x: 60 },
-  visible: { opacity: 1, x: 0 },
-};
-
 export default function Contact() {
   const [form, setForm] = useState({
     name: "",
@@ -35,10 +29,14 @@ export default function Contact() {
 
   const [success, setSuccess] = useState(false);
 
-  const handleChange = (e) =>
+  // ✅ تحديد نوع e
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+  };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSuccess(true);
     setForm({ name: "", email: "", subject: "", message: "" });
@@ -47,22 +45,14 @@ export default function Contact() {
   return (
     <>
       {/* ===== Hero ===== */}
-    
-<Hero title= "تواصل معنا" currentPage= "تواصل معنا" />
+      <Hero title="تواصل معنا" currentPage="تواصل معنا" />
+
       {/* ===== Contact Cards ===== */}
       <section className="bg-gray-50 py-24">
         <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-10">
           {[
-            {
-              icon: Phone,
-              title: "اتصل بنا",
-              text: "+966112320242",
-            },
-            {
-              icon: Mail,
-              title: "راسلنا",
-              text: "info@alzahri.com",
-            },
+            { icon: Phone, title: "اتصل بنا", text: "+966112320242" },
+            { icon: Mail, title: "راسلنا", text: "info@alzahri.com" },
             {
               icon: MapPin,
               title: "قم بزيارتنا",
@@ -109,7 +99,6 @@ export default function Contact() {
       {/* ===== Contact Form ===== */}
       <section className="bg-white py-28">
         <div className="max-w-4xl mx-auto px-6">
-
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -175,13 +164,13 @@ export default function Contact() {
               name="message"
               value={form.message}
               onChange={handleChange}
-              rows="5"
+              rows={5}
               placeholder="اكتب رسالتك"
               required
               className="w-full p-4 rounded-xl border focus:ring-2 focus:ring-blue-500"
             />
 
-            {/* Button */}
+            {/* Submit Button */}
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -207,7 +196,6 @@ export default function Contact() {
               </motion.div>
             )}
           </AnimatePresence>
-
         </div>
       </section>
     </>

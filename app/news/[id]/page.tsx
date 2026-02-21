@@ -5,20 +5,28 @@ import { useState } from "react";
 import { articles } from "../../constants/news";
 import { motion, AnimatePresence } from "framer-motion";
 
-export default function NewsDetails({ params }) {
+// ✅ نوع الـ params
+type NewsDetailsProps = {
+  params: {
+    id: string;
+  };
+};
+
+export default function NewsDetails({ params }: NewsDetailsProps) {
   const initialArticle =
-    articles.find(a => a.id.toString() === params.id) || articles[0];
+    articles.find((a) => a.id.toString() === params.id) || articles[0];
 
   const [selectedArticle, setSelectedArticle] = useState(initialArticle);
 
   return (
     <>
-      <Hero title=" المقالات والأخبار " currentPage=" المقالات والأخبار " />
+      {/* ===== الهيرو ===== */}
+      <Hero title="المقالات والأخبار" currentPage="المقالات والأخبار" />
 
-      {/* container */}
+      {/* ===== الحاوية الرئيسية ===== */}
       <div className="flex flex-col lg:flex-row gap-8 px-4 lg:px-10 xl:px-20 mt-28 mb-20">
 
-        {/* تفاصيل الخبر */}
+        {/* ===== تفاصيل الخبر ===== */}
         <div className="flex-1">
           <AnimatePresence mode="wait">
             <motion.div
@@ -32,7 +40,7 @@ export default function NewsDetails({ params }) {
               <div className="overflow-hidden rounded-2xl mb-6">
                 <motion.img
                   src={selectedArticle.image}
-                  alt=""
+                  alt={selectedArticle.title}
                   className="w-full h-64 sm:h-80 lg:h-[420px] object-cover"
                   initial={{ scale: 1.1 }}
                   animate={{ scale: 1 }}
@@ -55,9 +63,9 @@ export default function NewsDetails({ params }) {
           </AnimatePresence>
         </div>
 
-        {/* المقالات الجانبية */}
+        {/* ===== المقالات الجانبية ===== */}
         <div className="w-full lg:w-1/4 space-y-4 p-4 bg-gray-100 rounded-3xl">
-          {articles.map(article => (
+          {articles.map((article) => (
             <motion.div
               key={article.id}
               whileHover={{ scale: 1.03 }}
@@ -72,7 +80,7 @@ export default function NewsDetails({ params }) {
               <div className="overflow-hidden rounded-xl">
                 <img
                   src={article.image}
-                  alt=""
+                  alt={article.title}
                   className="w-full h-32 sm:h-36 object-cover"
                 />
               </div>

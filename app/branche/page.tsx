@@ -2,9 +2,9 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useEffect, useRef, useState, Suspense } from "react";
-
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
+
 import Hero from "../_components/Hero";
 import { BranchDetails } from "../_components/BranchDetails";
 import { BranchSelector } from "../_components/BranchSelector";
@@ -15,7 +15,7 @@ import BranchGallerySlider from "../_components/BranchGallerySlider";
 import BranchFeaturesSection from "../_components/BranchFeaturesSection";
 import StepsSection from "../_components/StepsSection";
 
-import { Branch } from "../types/branch"; // ✅ استعمل النوع الموجود
+import { Branch } from "../types/branch";
 
 export default function BranchesPage() {
   const searchParams = useSearchParams();
@@ -33,7 +33,6 @@ export default function BranchesPage() {
     }
   }, [branchParam]);
 
-  // normalize optional arrays to avoid undefined
   const vision = activeBranch.vision ?? [];
   const mission = activeBranch.mission ?? [];
   const goals = activeBranch.goals ?? [];
@@ -78,11 +77,7 @@ export default function BranchesPage() {
         </div>
 
         {/* ===== معرض الصور ===== */}
-        {gallery.length > 0 && (
-          <Suspense fallback={<div>Loading gallery...</div>}>
-            <BranchGallerySlider images={gallery} />
-          </Suspense>
-        )}
+        {gallery.length > 0 && <BranchGallerySlider images={gallery} />}
 
         {/* ===== الفيديوهات ===== */}
         {videos.length > 0 && (

@@ -7,20 +7,29 @@ import { motion } from "framer-motion";
 import Hero from "../_components/Hero";
 import { BranchDetails } from "../_components/BranchDetails";
 import { BranchSelector } from "../_components/BranchSelector";
-import { branches } from "../constants/branches";
+import { branches as rawBranches } from "../constants/branches";
 import BranchIdentitySection from "../_components/BranchIdentitySection";
 import BranchSideCard from "../_components/BranchSideCard";
 import BranchGallerySlider from "../_components/BranchGallerySlider";
 import BranchFeaturesSection from '../_components/BranchFeaturesSection';
 import StepsSection from "../_components/StepsSection";
+import { Branch } from "../types/branch";
+
+// ===== نضيف path لكل branch =====
+const branches: Branch[] = rawBranches.map(b => ({
+  ...b,
+  path: `/branche/${b.slug}`,
+}));
 
 export default function BranchesPage() {
   const searchParams = useSearchParams();
   const branchParam = searchParams.get("branch");
 
-  const [activeBranch, setActiveBranch] = useState(branches[0]);
-  const detailsRef = useRef<HTMLElement>(null); // ✅ نوع الـ ref مضبوط
+  // ✅ نبدأ بأول فرع
+  const [activeBranch, setActiveBranch] = useState<Branch>(branches[0]);
+  const detailsRef = useRef<HTMLElement>(null);
 
+  // ✅ نحدث الـ activeBranch لو في query param
   useEffect(() => {
     if (branchParam) {
       const foundBranch = branches.find((b) => b.slug === branchParam);
@@ -44,7 +53,7 @@ export default function BranchesPage() {
           <div className="lg:col-span-2">
             <BranchDetails
               branch={activeBranch}
-              sectionRef={detailsRef} // ✅ تمرير الـ ref بشكل صحيح
+              sectionRef={detailsRef}
             />
           </div>
 
@@ -52,7 +61,7 @@ export default function BranchesPage() {
             <BranchSelector
               branches={branches}
               activeId={activeBranch.id}
-              onSelect={setActiveBranch}
+              onSelect={(branch: Branch) => setActiveBranch(branch)}
             />
           </div>
         </div>

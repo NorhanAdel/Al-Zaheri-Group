@@ -2,23 +2,20 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import BranchGallerySlider from "./BranchGallerySlider";
 import { RefObject } from "react";
-import { Branch } from "../types/branch";
+import BranchGallerySlider from "./BranchGallerySlider";
+import { Branch } from "../types/branch"; // ✅ مهم جدًا
 
-type BranchSelectorProps = {
-  branches: Branch[];
-  onSelect: (branch: Branch) => void;
-  activeId: string;
+type BranchDetailsProps = {
+  branch: Branch;
+  sectionRef: RefObject<HTMLElement | null>;
 };
 
 export function BranchDetails({ branch, sectionRef }: BranchDetailsProps) {
   return (
     <section ref={sectionRef} className="space-y-24">
-
       {/* ===== الجزء العلوي ===== */}
       <div className="space-y-14">
-
         <motion.div
           className="relative w-full h-[420px] rounded-2xl overflow-hidden"
           initial={{ opacity: 0, y: 30 }}
@@ -47,10 +44,10 @@ export function BranchDetails({ branch, sectionRef }: BranchDetailsProps) {
         </p>
       </div>
 
-      {/* ===== الصور (Slider) ===== */}
-      {branch.images && <BranchGallerySlider images={branch.images} />}
-
+      {/* ===== الصور ===== */}
+      {branch.gallery && (
+        <BranchGallerySlider images={branch.gallery} />
+      )}
     </section>
   );
 }
-

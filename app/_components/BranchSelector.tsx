@@ -1,20 +1,10 @@
-type Branch = {
-  id: string;
-  slug: string;
-  name: string;
-  description: string;
-  mainImage: string;
-  audio: string;
-  vision: string[];
-  mission: string[];
-};
+import { Branch } from "../types/branch";
 
 type BranchSelectorProps = {
   branches: Branch[];
   onSelect: (branch: Branch) => void;
   activeId: string;
 };
-
 export function BranchSelector({
   branches,
   onSelect,
@@ -55,3 +45,4 @@ export function BranchSelector({
     </div>
   );
 }
+

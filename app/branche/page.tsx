@@ -2,53 +2,77 @@
 
 import { useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
 
+import { motion } from "framer-motion";
 import Hero from "../_components/Hero";
 import { BranchDetails } from "../_components/BranchDetails";
 import { BranchSelector } from "../_components/BranchSelector";
-import { branches } from "../constants/branches";
+import { branches as branchesData } from "../constants/branches";
 import BranchIdentitySection from "../_components/BranchIdentitySection";
 import BranchSideCard from "../_components/BranchSideCard";
 import BranchGallerySlider from "../_components/BranchGallerySlider";
 import BranchFeaturesSection from "../_components/BranchFeaturesSection";
 import StepsSection from "../_components/StepsSection";
 
+// ⚡ type for Branch
+type Branch = {
+  id: string;
+  slug: string;
+  name: string;
+  description: string;
+  mainImage: string;
+  audio?: string;
+  images?: string[];
+  gallery?: string[];
+  vision?: string[];
+  mission?: string[];
+  goals?: string[];
+  values?: string[];
+  videos?: string[];
+  path?: string;
+};
+
 export default function BranchesPage() {
   const searchParams = useSearchParams();
   const branchParam = searchParams.get("branch");
 
-  const [activeBranch, setActiveBranch] = useState(branches[0]);
+  const [activeBranch, setActiveBranch] = useState<Branch>(branchesData[0]);
   const detailsRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     if (branchParam) {
-      const foundBranch = branches.find((b) => b.slug === branchParam);
+      const foundBranch = branchesData.find((b) => b.slug === branchParam);
       if (foundBranch) {
         setActiveBranch(foundBranch);
       }
     }
   }, [branchParam]);
 
-  // ضمان أن الفيديوهات دايمًا مصفوفة
+  // normalize videos array
   const videos = activeBranch.videos ?? [];
 
   return (
     <>
-      <Hero title={activeBranch.name} currentPage={activeBranch.name} />
+      <Hero
+        title={activeBranch.name}
+        currentPage={activeBranch.name}
+      />
 
       <div className="max-w-7xl mx-auto px-6 mt-20 space-y-28">
         {/* ===== الجزء العلوي ===== */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-14 items-start">
           <div className="lg:col-span-2">
-            <BranchDetails branch={activeBranch} sectionRef={detailsRef} />
+            <BranchDetails
+              branch={activeBranch}
+              sectionRef={detailsRef}
+            />
           </div>
 
           <div className="lg:col-span-1">
             <BranchSelector
-              branches={branches}
+              branches={branchesData}
               activeId={activeBranch.id}
-              onSelect={setActiveBranch}
+              onSelect={(branch) => setActiveBranch(branch)} // ✅ type-safe
             />
           </div>
         </div>
@@ -56,6 +80,7 @@ export default function BranchesPage() {
         {/* ===== قسم الهوية ===== */}
         <div className="bg-gray-50 rounded-3xl p-12">
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-16 items-start">
+            {/* المحتوى */}
             <div className="lg:col-span-3 space-y-20">
               {activeBranch.vision && (
                 <BranchIdentitySection title="رؤيتنا" items={activeBranch.vision} />
@@ -71,6 +96,7 @@ export default function BranchesPage() {
               )}
             </div>
 
+            {/* الكارد الجانبي */}
             <div className="lg:col-span-2">
               <BranchSideCard />
             </div>
@@ -78,9 +104,7 @@ export default function BranchesPage() {
         </div>
 
         {/* ===== معرض الصور ===== */}
-        {activeBranch.gallery && activeBranch.gallery.length > 0 && (
-          <BranchGallerySlider images={activeBranch.gallery} />
-        )}
+        {activeBranch.gallery && <BranchGallerySlider images={activeBranch.gallery} />}
 
         {/* ===== الفيديوهات ===== */}
         {videos.length > 0 && (

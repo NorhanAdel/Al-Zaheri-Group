@@ -1,7 +1,8 @@
+// /app/branche/page.tsx
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, Suspense } from "react";
 
 import { motion } from "framer-motion";
 import Hero from "../_components/Hero";
@@ -77,7 +78,11 @@ export default function BranchesPage() {
         </div>
 
         {/* ===== معرض الصور ===== */}
-        {gallery.length > 0 && <BranchGallerySlider images={gallery} />}
+        {gallery.length > 0 && (
+          <Suspense fallback={<div>Loading gallery...</div>}>
+            <BranchGallerySlider images={gallery} />
+          </Suspense>
+        )}
 
         {/* ===== الفيديوهات ===== */}
         {videos.length > 0 && (

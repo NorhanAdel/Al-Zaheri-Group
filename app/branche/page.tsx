@@ -14,65 +14,48 @@ import BranchGallerySlider from "../_components/BranchGallerySlider";
 import BranchFeaturesSection from "../_components/BranchFeaturesSection";
 import StepsSection from "../_components/StepsSection";
 
-// ⚡ type for Branch
-type Branch = {
-  id: string;
-  slug: string;
-  name: string;
-  description: string;
-  mainImage: string;
-  audio?: string;
-  images?: string[];
-  gallery?: string[];
-  vision?: string[];
-  mission?: string[];
-  goals?: string[];
-  values?: string[];
-  videos?: string[];
-  path?: string;
-};
+import { Branch } from "../types/branch"; // ✅ استعمل النوع الموجود
 
 export default function BranchesPage() {
   const searchParams = useSearchParams();
   const branchParam = searchParams.get("branch");
 
-  const [activeBranch, setActiveBranch] = useState<Branch>(branchesData[0]);
+  const [activeBranch, setActiveBranch] = useState<Branch>(branchesData[0] as Branch);
   const detailsRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     if (branchParam) {
       const foundBranch = branchesData.find((b) => b.slug === branchParam);
       if (foundBranch) {
-        setActiveBranch(foundBranch);
+        setActiveBranch(foundBranch as Branch);
       }
     }
   }, [branchParam]);
 
-  // normalize videos array
+  // normalize optional arrays to avoid undefined
+  const vision = activeBranch.vision ?? [];
+  const mission = activeBranch.mission ?? [];
+  const goals = activeBranch.goals ?? [];
+  const values = activeBranch.values ?? [];
+  const gallery = activeBranch.gallery ?? [];
   const videos = activeBranch.videos ?? [];
 
   return (
     <>
-      <Hero
-        title={activeBranch.name}
-        currentPage={activeBranch.name}
-      />
+      <Hero title={activeBranch.name} currentPage={activeBranch.name} />
 
       <div className="max-w-7xl mx-auto px-6 mt-20 space-y-28">
         {/* ===== الجزء العلوي ===== */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-14 items-start">
           <div className="lg:col-span-2">
-            <BranchDetails
-              branch={activeBranch}
-              sectionRef={detailsRef}
-            />
+            <BranchDetails branch={activeBranch} sectionRef={detailsRef} />
           </div>
 
           <div className="lg:col-span-1">
             <BranchSelector
               branches={branchesData}
               activeId={activeBranch.id}
-              onSelect={(branch) => setActiveBranch(branch)} // ✅ type-safe
+              onSelect={(branch) => setActiveBranch(branch)}
             />
           </div>
         </div>
@@ -80,23 +63,13 @@ export default function BranchesPage() {
         {/* ===== قسم الهوية ===== */}
         <div className="bg-gray-50 rounded-3xl p-12">
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-16 items-start">
-            {/* المحتوى */}
             <div className="lg:col-span-3 space-y-20">
-              {activeBranch.vision && (
-                <BranchIdentitySection title="رؤيتنا" items={activeBranch.vision} />
-              )}
-              {activeBranch.mission && (
-                <BranchIdentitySection title="رسالتنا" items={activeBranch.mission} />
-              )}
-              {activeBranch.goals && (
-                <BranchIdentitySection title="أهدافنا" items={activeBranch.goals} />
-              )}
-              {activeBranch.values && (
-                <BranchIdentitySection title="قيمنا" items={activeBranch.values} />
-              )}
+              {vision.length > 0 && <BranchIdentitySection title="رؤيتنا" items={vision} />}
+              {mission.length > 0 && <BranchIdentitySection title="رسالتنا" items={mission} />}
+              {goals.length > 0 && <BranchIdentitySection title="أهدافنا" items={goals} />}
+              {values.length > 0 && <BranchIdentitySection title="قيمنا" items={values} />}
             </div>
 
-            {/* الكارد الجانبي */}
             <div className="lg:col-span-2">
               <BranchSideCard />
             </div>
@@ -104,7 +77,7 @@ export default function BranchesPage() {
         </div>
 
         {/* ===== معرض الصور ===== */}
-        {activeBranch.gallery && <BranchGallerySlider images={activeBranch.gallery} />}
+        {gallery.length > 0 && <BranchGallerySlider images={gallery} />}
 
         {/* ===== الفيديوهات ===== */}
         {videos.length > 0 && (

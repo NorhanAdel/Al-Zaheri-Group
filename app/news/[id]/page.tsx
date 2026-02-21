@@ -2,8 +2,18 @@
 
 import Hero from "@/app/_components/Hero";
 import { useState } from "react";
-import { articles } from "../../constants/news";
 import { motion, AnimatePresence } from "framer-motion";
+
+// ✅ نوع المقال
+type Article = {
+  id: number;
+  title: string;
+  description: string;
+  image: string;
+  day: string;
+  month: string;
+  content: string;
+};
 
 // ✅ نوع الـ params
 type NewsDetailsProps = {
@@ -12,11 +22,44 @@ type NewsDetailsProps = {
   };
 };
 
+// ✅ بيانات المقالات
+export const articles: Article[] = [
+  {
+    id: 1,
+    title: "أكثر من 3 مليارات دولار استثمار",
+    description:
+      "هاهي بلادي الغالية المملكة العربية السعودية تحتفل بذكرى اليوم الوطني الـ 89 وهي شامخة وعزيزة...",
+    image: "/2025-Oct-Tue_68f7898a3b12c.png",
+    day: "21",
+    month: "أكتوبر",
+    content: "تفاصيل الخبر بالكامل...",
+  },
+  {
+    id: 2,
+    title: "نمو استثمارات المجموعة",
+    description: "تفاصيل الخبر حول نمو استثمارات المجموعة...",
+    image: "/2025-Oct-Tue_68f7898a3b12c.png",
+    day: "21",
+    month: "أكتوبر",
+    content: "تفاصيل الخبر بالكامل...",
+  },
+  {
+    id: 3,
+    title: "توسع إقليمي جديد",
+    description: "تفاصيل الخبر حول التوسع الإقليمي الجديد...",
+    image: "/2025-Oct-Tue_68f7898a3b12c.png",
+    day: "21",
+    month: "أكتوبر",
+    content: "تفاصيل الخبر بالكامل...",
+  },
+];
+
+// ===== الصفحة الرئيسية لتفاصيل الخبر =====
 export default function NewsDetails({ params }: NewsDetailsProps) {
   const initialArticle =
     articles.find((a) => a.id.toString() === params.id) || articles[0];
 
-  const [selectedArticle, setSelectedArticle] = useState(initialArticle);
+  const [selectedArticle, setSelectedArticle] = useState<Article>(initialArticle);
 
   return (
     <>
@@ -52,8 +95,9 @@ export default function NewsDetails({ params }: NewsDetailsProps) {
                 {selectedArticle.title}
               </h1>
 
+              {/* عرض اليوم والشهر بدل date */}
               <p className="text-gray-400 text-sm mb-5 text-right">
-                {selectedArticle.date}
+                {selectedArticle.day} {selectedArticle.month}
               </p>
 
               <p className="text-gray-700 leading-loose text-right">
@@ -91,7 +135,6 @@ export default function NewsDetails({ params }: NewsDetailsProps) {
             </motion.div>
           ))}
         </div>
-
       </div>
     </>
   );
